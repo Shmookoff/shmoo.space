@@ -1,0 +1,31 @@
+import { ElementButton } from "payload/components/rich-text";
+import { injectVoidElement } from "payload/dist/admin/components/forms/field-types/RichText/elements/injectVoid";
+import React from "react";
+import { ReactEditor, useSlate } from "slate-react";
+import Icon from "../Icon";
+
+const insertBr = (editor: ReactEditor) => {
+  const markdownElement = {
+    type: "br",
+    children: [{ text: "" }],
+  };
+
+  injectVoidElement(editor, markdownElement);
+  ReactEditor.focus(editor);
+};
+
+const ToolbarButton: React.FC<{ path: string }> = () => {
+  const editor = useSlate() as ReactEditor;
+
+  const onClick = () => {
+    insertBr(editor);
+  };
+
+  return (
+    <ElementButton format="br" onClick={onClick}>
+      <Icon />
+    </ElementButton>
+  );
+};
+
+export default ToolbarButton;
