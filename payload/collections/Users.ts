@@ -1,15 +1,17 @@
-import { CollectionConfig } from "payload/types";
-import { COLLECTION } from "./collections";
+import { COLLECTION, type CollectionConfig } from "./collections";
+
 const Users = {
-  slug: COLLECTION.USERS,
-  auth: true,
-  admin: {
-    useAsTitle: "email",
+  [COLLECTION.USERS]: {
+    auth: true,
+    admin: {
+      useAsTitle: "email",
+      enableRichTextLink: false,
+    },
+    fields: [
+      // Email added by default
+      // Add more fields as needed
+    ],
   },
-  fields: [
-    // Email added by default
-    // Add more fields as needed
-  ],
 } satisfies CollectionConfig;
 
 export default Users;

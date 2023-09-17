@@ -1,29 +1,19 @@
 import path from "path";
 import { buildConfig } from "payload/config";
-import {
-  Users,
-  Technologies,
-  Projects,
-  Pages,
-  MenuItems,
-  SocialNetworks,
-  SocialNetworkIcons,
-  Media,
-} from "./collections";
-import { NavigationMenu, SiteIdentity } from "./globals";
+import collectionsConfigs from "./collections";
+import globalsConfigs from "./globals";
 
 export default buildConfig({
-  collections: [
-    Users,
-    Technologies,
-    Projects,
-    Pages,
-    MenuItems,
-    SocialNetworks,
-    SocialNetworkIcons,
-    Media,
-  ],
-  globals: [NavigationMenu, SiteIdentity],
+  collections: Object.entries(collectionsConfigs).map(
+    ([slug, collectionConfig]) => ({
+      slug,
+      ...collectionConfig,
+    }),
+  ),
+  globals: Object.entries(globalsConfigs).map(([slug, globalConfig]) => ({
+    slug,
+    ...globalConfig,
+  })),
   typescript: {
     outputFile: path.resolve(__dirname, "./payload-types.ts"),
   },

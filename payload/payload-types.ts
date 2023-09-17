@@ -10,16 +10,16 @@ export interface Config {
   collections: {
     users: User;
     technologies: Technology;
+    technologyIcons: TechnologyIcon;
     projects: Project;
+    projectLeadImages: ProjectLeadImage;
     pages: Page;
-    menuItems: MenuItem;
-    socialNetworks: SocialNetwork;
     socialNetworkIcons: SocialNetworkIcon;
     media: Media;
   };
   globals: {
-    navigationMenu: NavigationMenu;
     siteIdentity: SiteIdentity;
+    siteSettings: SiteSetting;
   };
 }
 export interface User {
@@ -38,48 +38,86 @@ export interface User {
 export interface Technology {
   id: string;
   title: string;
-  projects: string | Project;
+  slug: string;
+  icon: string | TechnologyIcon;
   updatedAt: string;
   createdAt: string;
+}
+export interface TechnologyIcon {
+  id: string;
+  updatedAt: string;
+  createdAt: string;
+  url?: string;
+  filename?: string;
+  mimeType?: string;
+  filesize?: number;
+  width?: number;
+  height?: number;
 }
 export interface Project {
   id: string;
   title: string;
-  technologies: string | Technology;
+  slug: string;
+  excerpt: string;
+  links?: {
+    type: 'git' | 'homepage' | 'other';
+    value: string;
+    id?: string;
+  }[];
+  description: {
+    [k: string]: unknown;
+  }[];
+  technologies: string[] | Technology[];
+  gallery?: {
+    image: string | ProjectLeadImage;
+    id?: string;
+  }[];
   updatedAt: string;
   createdAt: string;
+}
+export interface ProjectLeadImage {
+  id: string;
+  updatedAt: string;
+  createdAt: string;
+  url?: string;
+  filename?: string;
+  mimeType?: string;
+  filesize?: number;
+  width?: number;
+  height?: number;
 }
 export interface Page {
   id: string;
   title: string;
   location: string;
-  content: {
-    generalInfo: {
-      avatar: string | Media;
-      content: (
-        | Heading1Block
-        | Heading2Block
-        | Heading3Block
-        | Heading4Block
-        | Heading5Block
-        | Heading6Block
-        | BlockquoteBlock
-        | LeadBlock
-        | LargeBlock
-        | SmallBlock
-        | MutedBlock
-        | ParagraphBlock
-      )[];
-    };
-    content: {
-      [k: string]: unknown;
-    }[];
-    id?: string;
-    blockName?: string;
-    blockType: 'about';
-  }[];
+  content: (AboutBlock | ProjectsBlock | TechnologiesBlock)[];
   updatedAt: string;
   createdAt: string;
+}
+export interface AboutBlock {
+  generalInfo: {
+    avatar: string | Media;
+    content: (
+      | Heading1Block
+      | Heading2Block
+      | Heading3Block
+      | Heading4Block
+      | Heading5Block
+      | Heading6Block
+      | BlockquoteBlock
+      | LeadBlock
+      | LargeBlock
+      | SmallBlock
+      | MutedBlock
+      | ParagraphBlock
+    )[];
+  };
+  content: {
+    [k: string]: unknown;
+  }[];
+  id?: string;
+  blockName?: string;
+  blockType: 'about';
 }
 export interface Media {
   id: string;
@@ -165,21 +203,15 @@ export interface ParagraphBlock {
   blockName?: string;
   blockType: 'paragraph';
 }
-export interface MenuItem {
-  id: string;
-  title: string;
-  position: number;
-  description: string;
-  page: string | Page;
-  updatedAt: string;
-  createdAt: string;
+export interface ProjectsBlock {
+  id?: string;
+  blockName?: string;
+  blockType: 'projects';
 }
-export interface SocialNetwork {
-  id: string;
-  title: string;
-  icon: string | SocialNetworkIcon;
-  updatedAt: string;
-  createdAt: string;
+export interface TechnologiesBlock {
+  id?: string;
+  blockName?: string;
+  blockType: 'technologies';
 }
 export interface SocialNetworkIcon {
   id: string;
@@ -192,21 +224,63 @@ export interface SocialNetworkIcon {
   width?: number;
   height?: number;
 }
-export interface NavigationMenu {
+export interface SiteIdentity {
   id: string;
-  items: {
+  title: string;
+  subtitle: string;
+  navigationMenuItems?: {
     title: string;
     description: string;
     page: string | Page;
     id?: string;
   }[];
+  socialNetworkItems?: {
+    title: string;
+    url: string;
+    icon: string | SocialNetworkIcon;
+    id?: string;
+  }[];
   updatedAt?: string;
   createdAt?: string;
 }
-export interface SiteIdentity {
+export interface SiteSetting {
   id: string;
-  title: string;
-  subtitle: string;
+  pageMapping: {
+    projects: {
+      parent: string | Page;
+      singlePage: (
+        | {
+            title?: string;
+            id?: string;
+            blockName?: string;
+            blockType: 'singleProject';
+          }
+        | {
+            title?: string;
+            id?: string;
+            blockName?: string;
+            blockType: 'singleTechnology';
+          }
+      )[];
+    };
+    technologies: {
+      parent: string | Page;
+      singlePage: (
+        | {
+            title?: string;
+            id?: string;
+            blockName?: string;
+            blockType: 'singleProject';
+          }
+        | {
+            title?: string;
+            id?: string;
+            blockName?: string;
+            blockType: 'singleTechnology';
+          }
+      )[];
+    };
+  };
   updatedAt?: string;
   createdAt?: string;
 }

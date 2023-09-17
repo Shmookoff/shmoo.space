@@ -1,18 +1,20 @@
-import { CollectionConfig } from "payload/types";
-import { COLLECTION } from "./collections";
+import { COLLECTION, type CollectionConfig } from "./collections";
+
+// TODO: Figure out how to revalidate documents linked to a Media by any method (inside a block for example)
 
 const Media = {
-  slug: COLLECTION.MEDIA,
-  fields: [
-    {
-      type: "text",
-      name: "alt",
-      required: true,
+  [COLLECTION.MEDIA]: {
+    fields: [
+      {
+        type: "text",
+        name: "alt" as const,
+        required: true,
+      },
+    ],
+    upload: {
+      staticURL: "/media/media",
+      staticDir: "../public/media/media",
     },
-  ],
-  upload: {
-    staticURL: "/media/media",
-    staticDir: "../public/media/media",
   },
 } satisfies CollectionConfig;
 

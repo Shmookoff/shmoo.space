@@ -2,21 +2,25 @@
 module.exports = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
-	],
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
   theme: {
-    container: {
-      center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
-    },
     extend: {
+      container: {
+        center: true,
+        padding: "2rem",
+      },
+      backgroundImage: {
+        gradient:
+          "linear-gradient(to bottom right, hsl(var(--gradient-primary)), hsl(var(--gradient-secondary)))",
+      },
       colors: {
+        "gradient-primary": "hsl(var(--gradient-primary))",
+        "gradient-secondary": "hsl(var(--gradient-secondary))",
+        "gradient-foreground": "hsl(var(--gradient-foreground))",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -66,11 +70,23 @@ module.exports = {
           to: { height: 0 },
         },
       },
+      keyframes: {
+        "active-navigation-menu-item-enter": {
+          "0%": {
+            "flex-grow": 0,
+          },
+          "100%": {
+            "flex-grow": 1,
+          },
+        },
+      },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "active-navigation-menu-item-enter":
+          "active-navigation-menu-item-enter .2s ease-out",
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
-}
+  plugins: [require("tailwindcss-animate"), require("tailwindcss-text-fill")],
+};

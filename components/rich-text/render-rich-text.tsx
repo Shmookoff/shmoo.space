@@ -18,22 +18,23 @@ import {
   Underline,
   UnorderedList,
 } from "@/components/ui/complementary/typography";
-import util from "util";
+import CMSLink from "../cms-link";
+import type { RichTextElementName } from "@/payload/fields/richText/elements";
+import type { RichTextLeafName } from "@/payload/fields/richText/leaves";
+import type { RichTextElementLink } from "./elements/link";
 
-export type Node = {
-  type: string;
-  value?: {
-    url: string;
-    alt: string;
-  };
-  children?: Node[];
-  url?: string;
-  [key: string]: unknown;
-  newTab?: boolean;
-};
+export type Node = (
+  | {
+      type: Exclude<RichTextElementName, "link">;
+      children: Content;
+    }
+  | RichTextElementLink
+) & { [L in RichTextLeafName]?: boolean };
+
+export type Content = Node[] | undefined;
 
 export type CustomRenderers = {
-  [key: string]: (args: {
+  [N in RichTextElementName as N extends undefined ? "paragraph" : N]?: (args: {
     node: Node;
     Serialize: SerializeFunction;
     index: number;
@@ -41,12 +42,9 @@ export type CustomRenderers = {
 };
 
 type SerializeFunction = React.FC<{
-  content?: Node[];
+  content: Content;
   customRenderers?: CustomRenderers;
 }>;
-
-const isText = (value: any): boolean =>
-  typeof value === "object" && value !== null && typeof value.text === "string";
 
 export const RenderRichText: SerializeFunction = ({
   content,
@@ -83,12 +81,12 @@ export const RenderRichText: SerializeFunction = ({
           return null;
         }
 
-        if (
-          customRenderers &&
-          customRenderers[node.type] &&
-          typeof customRenderers[node.type] === "function"
-        ) {
-          return customRenderers[node.type]({
+        const renderer = node.type
+          ? customRenderers?.[node.type]
+          : customRenderers?.["paragraph"];
+
+        if (renderer) {
+          return renderer({
             node,
             Serialize: RenderRichText,
             index: i,
@@ -152,7 +150,7 @@ export const RenderRichText: SerializeFunction = ({
                 />
               </Heading6>
             );
-          case "quote":
+          case "blockquote":
             return (
               <Blockquote key={i}>
                 <RenderRichText
@@ -189,8 +187,15 @@ export const RenderRichText: SerializeFunction = ({
               </ListItem>
             );
           case "link":
-            console.log(util.inspect({ node }, false, null, true));
-
+            const { children, ...rest } = node;
+            return (
+              <CMSLink key={i} {...rest}>
+                <RenderRichText
+                  content={children}
+                  customRenderers={customRenderers}
+                />
+              </CMSLink>
+            );
           default:
             return (
               <Paragraph key={i}>

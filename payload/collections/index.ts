@@ -1,8 +1,19 @@
-export { default as Users } from "./Users";
-export { default as Technologies } from "./Technologies";
-export { default as Projects } from "./Projects";
-export { default as Pages } from "./Pages";
-export { default as MenuItems } from "./MenuItems";
-export { default as SocialNetworks } from "./SocialNetworks";
-export { default as SocialNetworkIcons } from "./SocialNetworkIcons";
-export { default as Media } from "./Media";
+import { default as Users } from "./Users";
+import { default as Technologies, TechnologyIcons } from "./Technologies";
+import { default as Projects, ProjectLeadImages } from "./Projects";
+import { default as Pages } from "./Pages";
+import { default as SocialNetworkIcons } from "./SocialNetworkIcons";
+import { default as Media } from "./Media";
+
+const collectionsConfigs = {
+  ...Users,
+  ...Technologies,
+  ...TechnologyIcons,
+  ...Projects,
+  ...ProjectLeadImages,
+  ...Pages,
+  ...SocialNetworkIcons,
+  ...Media,
+} as const;
+
+export default collectionsConfigs;

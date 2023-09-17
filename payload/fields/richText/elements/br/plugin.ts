@@ -6,7 +6,7 @@ const withBr: NonNullable<RichTextCustomElement["plugins"]>[0] = (
   const editor = incomingEditor;
   const { isVoid } = editor;
 
-  // @ts-expect-error
+  //@ts-expect-error
   editor.isVoid = (element) => (element.type === "br" ? true : isVoid(element));
 
   return editor;

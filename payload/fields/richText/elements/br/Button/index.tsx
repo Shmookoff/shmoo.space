@@ -1,6 +1,6 @@
 import { ElementButton } from "payload/components/rich-text";
 import { injectVoidElement } from "payload/dist/admin/components/forms/field-types/RichText/elements/injectVoid";
-import React from "react";
+import { FC } from "react";
 import { ReactEditor, useSlate } from "slate-react";
 import Icon from "../Icon";
 
@@ -14,7 +14,7 @@ const insertBr = (editor: ReactEditor) => {
   ReactEditor.focus(editor);
 };
 
-const ToolbarButton: React.FC<{ path: string }> = () => {
+const ToolbarButton: FC<{ path: string }> = () => {
   const editor = useSlate() as ReactEditor;
 
   const onClick = () => {
