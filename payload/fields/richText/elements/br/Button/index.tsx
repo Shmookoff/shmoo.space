@@ -3,6 +3,7 @@ import { injectVoidElement } from "payload/dist/admin/components/forms/field-typ
 import { FC } from "react";
 import { ReactEditor, useSlate } from "slate-react";
 import Icon from "../Icon";
+import { BaseEditor, Editor } from "slate";
 
 const insertBr = (editor: ReactEditor) => {
   const markdownElement = {
