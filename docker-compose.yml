@@ -9,4 +9,4 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD
       - MONGO_INITDB_DATABASE
     ports:
-      - "27017:27017"
+      - "${MONGODB_PORT}:27017"
