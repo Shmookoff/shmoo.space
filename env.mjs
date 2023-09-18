@@ -16,3 +16,5 @@ export const env = createEnv({
   client: {},
   experimental__runtimeEnv: {},
 });
+
+process.env = {...process.env, ...env}
