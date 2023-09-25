@@ -18,7 +18,6 @@ const LocationPage: FC<{ params: { location?: string } }> = async ({
       },
     )
     .then((res) => res.docs[0]);
-
   if (page) {
     const Component = blockToComponent[page.content[0].blockType];
     return <Component {...(page as any)} />;

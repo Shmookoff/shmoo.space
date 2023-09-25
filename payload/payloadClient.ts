@@ -42,4 +42,8 @@ export const getPayloadClient = async (): Promise<Payload> => {
   return cached.client;
 };
 
+export const getPayloadClientBuildTime = () => {
+  if (!process.env.BUILD_TIME) return getPayloadClient();
+};
+
 export default getPayloadClient;

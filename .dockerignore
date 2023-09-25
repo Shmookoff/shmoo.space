@@ -5,3 +5,7 @@ npm-debug.log
 README.md
 .next
 .git
+.env
+docker-compose.yml
+.gitignore
+.env.example

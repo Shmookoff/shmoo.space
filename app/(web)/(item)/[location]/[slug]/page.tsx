@@ -1,14 +1,14 @@
 import { blockToComponent } from "@/components/block";
-import { generateGlobalCacheTag } from "@/lib/utils/generate-cache-tag";
 import payloadClient from "@/lib/utils/payload-client";
 import type { Page } from "@/payload/payload-types";
-import getPayloadClient from "@/payload/payloadClient";
-import { unstable_cache } from "next/cache";
+import { getPayloadClientBuildTime } from "@/payload/payloadClient";
 import { redirect } from "next/navigation";
 import type { FC } from "react";
 
 export const generateStaticParams = async () => {
-  const payload = await getPayloadClient();
+  const payload = await getPayloadClientBuildTime();
+  if (!payload) return [];
+
   const siteSettings = await payload.findGlobal({ slug: "siteSettings" });
 
   const projectsLocation = (

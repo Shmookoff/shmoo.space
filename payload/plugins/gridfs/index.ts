@@ -1,0 +1,1 @@
+export { gridfs } from "./plugin";

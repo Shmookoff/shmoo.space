@@ -8,13 +8,15 @@ import { Heading3 } from "@/components/ui/complementary/typography";
 import { computeLocation1 } from "@/lib/utils/compute-location";
 import payloadClient from "@/lib/utils/payload-client";
 import { Page, SocialNetworkIcon } from "@/payload/payload-types";
-import getPayloadClient from "@/payload/payloadClient";
+import { getPayloadClientBuildTime } from "@/payload/payloadClient";
 import Image from "next/image";
 import Link from "next/link";
 import { FC } from "react";
 
 export const generateStaticParams = async () => {
-  const payload = await getPayloadClient();
+  const payload = await getPayloadClientBuildTime();
+  if (!payload) return [{ location: "" }];
+
   const pages = await payload.find({ collection: "pages" });
   return pages.docs
     .filter((page) => page.location !== "/")
@@ -66,7 +68,7 @@ const ParentLayout: FC<{
                   className={
                     "group/item peer hidden pb-4 transition-all last:pb-0 lg:block " +
                     (isCurrent
-                      ? "animate-active-navigation-menu-item-enter grow hover:!grow group-hover:grow-0"
+                      ? "grow animate-active-navigation-menu-item-enter hover:!grow group-hover:grow-0"
                       : "hover:grow")
                   }
                   href={page.location}

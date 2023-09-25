@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   mongodb:
@@ -10,3 +10,9 @@ services:
       - MONGO_INITDB_DATABASE
     ports:
       - "${MONGODB_PORT}:27017"
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - mongodb_data:/data/db
+
+volumes:
+  mongodb_data:
