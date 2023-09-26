@@ -25,8 +25,9 @@ COPY . .
 # Uncomment the following line in case you want to disable telemetry during the build.
 # ENV NEXT_TELEMETRY_DISABLED 1
 
-ENV NEXT_PUBLIC_HOST=http://localhost \
-    NEXT_PUBLIC_PORT=3000
+ARG app_url
+
+ENV NEXT_PUBLIC_APP_URL ${app_url}
 
 RUN --mount=type=secret,id=MONGODB_URI --mount=type=secret,id=PAYLOAD_SECRET ./docker-next-build.sh
 
