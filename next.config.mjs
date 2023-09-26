@@ -1,14 +1,28 @@
-import { env } from "./env.mjs";
-import path from "path";
 import { withPayload } from "@payloadcms/next-payload";
-import { fileURLToPath } from "url";
+import path from "path";
+import { URL, fileURLToPath } from "url";
+import { env } from "./env.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 
 const __dirname = path.dirname(__filename);
 
+const appUrl = new URL(env.NEXT_PUBLIC_APP_URL);
+
 /** @type {import('next').NextConfig} */
-const nextConfig = {output: 'standalone'};
+const nextConfig = {
+  output: "standalone",
+  images: {
+    remotePatterns: [
+      {
+        protocol: appUrl.protocol,
+        hostname: appUrl.hostname,
+        port: appUrl.port,
+        pathname: "/api/uploads/*/*",
+      },
+    ],
+  },
+};
 
 export default withPayload(nextConfig, {
   // The second argument to `withPayload`
