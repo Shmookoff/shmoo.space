@@ -1,6 +1,6 @@
 {
   "name": "shmoo.space",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "scripts": {
     "dev": "export NEXT_PUBLIC_PORT=3000; next dev -p $NEXT_PUBLIC_PORT",
