@@ -20,7 +20,7 @@ services:
       - NEXT_PUBLIC_APP_URL
       - PAYLOAD_SECRET
     ports:
-      "3000:3000"
+      - "3000:3000"
     depends_on:
       - mongodb
 volumes:
