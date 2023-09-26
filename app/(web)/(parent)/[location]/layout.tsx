@@ -8,14 +8,13 @@ import { Heading3 } from "@/components/ui/complementary/typography";
 import { computeLocation1 } from "@/lib/utils/compute-location";
 import payloadClient from "@/lib/utils/payload-client";
 import { Page, SocialNetworkIcon } from "@/payload/payload-types";
-import { getPayloadClientBuildTime } from "@/payload/payloadClient";
+import getPayloadClient from "@/payload/payloadClient";
 import Image from "next/image";
 import Link from "next/link";
 import { FC } from "react";
 
 export const generateStaticParams = async () => {
-  const payload = await getPayloadClientBuildTime();
-  if (!payload) return [{ location: "" }];
+  const payload = await getPayloadClient();
 
   const pages = await payload.find({ collection: "pages" });
   return pages.docs
