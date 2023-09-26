@@ -1,15 +1,20 @@
 import { blockToComponent } from "@/components/block";
-import { generateGlobalCacheTag } from "@/lib/utils/generate-cache-tag";
 import payloadClient from "@/lib/utils/payload-client";
 import type { Page } from "@/payload/payload-types";
 import getPayloadClient from "@/payload/payloadClient";
-import { unstable_cache } from "next/cache";
 import { redirect } from "next/navigation";
 import type { FC } from "react";
 
 export const generateStaticParams = async () => {
   const payload = await getPayloadClient();
+
   const siteSettings = await payload.findGlobal({ slug: "siteSettings" });
+
+  if (
+    !siteSettings.pageMapping.projects.parent ||
+    !siteSettings.pageMapping.technologies.parent
+  )
+    return [];
 
   const projectsLocation = (
     siteSettings.pageMapping.projects.parent as Page

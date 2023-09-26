@@ -37,8 +37,7 @@ const Technologies = {
               value: previousDoc.slug,
             });
             revalidator.revalidateCollection("projects");
-            const payload: Payload = req.payload;
-            payload
+            req.payload
               .find({
                 collection: "projects",
                 where: { technologies: { equals: doc.id } },

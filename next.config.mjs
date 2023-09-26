@@ -8,19 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  images: {
-    domains: ["picsum.photos"],
-    // remotePatterns: [
-    //   {
-    //     protocol: "https",
-    //     hostname: "picsum.photos",
-    //     port: "",
-    //     pathname: "/**",
-    //   },
-    // ],
-  },
-};
+const nextConfig = {output: 'standalone'};
 
 export default withPayload(nextConfig, {
   // The second argument to `withPayload`

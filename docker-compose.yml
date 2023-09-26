@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   mongodb:
@@ -8,5 +8,20 @@ services:
       - MONGO_INITDB_ROOT_USERNAME
       - MONGO_INITDB_ROOT_PASSWORD
       - MONGO_INITDB_DATABASE
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - mongodb_data:/data/db
+
+  app:
+    image: ghrc.io/shmookoff/shmoo.space:0.1.1
+    restart: on-failure
+    environment:
+      - MONGODB_URI
+      - NEXT_PUBLIC_APP_URL
+      - PAYLOAD_SECRET
     ports:
-      - "${MONGODB_PORT}:27017"
+      "3000:3000"
+    depends_on:
+      - mongodb
+volumes:
+  mongodb_data:

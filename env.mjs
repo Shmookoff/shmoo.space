@@ -13,6 +13,13 @@ export const env = createEnv({
     PAYLOAD_PATH: z.string().default("./payload/payloadClient.ts"),
     PAYLOAD_ADMIN_ROUTE: z.string().default("/admin"),
   },
-  client: {},
+  client: {
+    NEXT_PUBLIC_APP_URL: z.preprocess((appUrl) => {
+      if (appUrl) return appUrl;
+      if (process.env.NEXT_PUBLIC_HOST && process.env.NEXT_PUBLIC_PORT)
+        return `${process.env.NEXT_PUBLIC_HOST}:${process.env.NEXT_PUBLIC_PORT}`;
+    }, z.string().url()),
+  },
   experimental__runtimeEnv: {},
 });
+process.env = { ...process.env, ...env };
