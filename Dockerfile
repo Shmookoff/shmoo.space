@@ -11,6 +11,8 @@ FROM base AS deps
 WORKDIR /app
 
 COPY package.json pnpm-lock.yaml .npmrc ./
+RUN echo "node-linker=hoisted" >> .npmrc
+
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm i --frozen-lockfile
 
 
@@ -30,9 +32,6 @@ ARG app_url
 ENV NEXT_PUBLIC_APP_URL ${app_url}
 
 RUN --mount=type=secret,id=MONGODB_URI --mount=type=secret,id=PAYLOAD_SECRET ./docker-next-build.sh
-
-# If using npm comment out above and use below instead
-# RUN npm run build
 
 # Production image, copy all the files and run next
 FROM base AS runner
