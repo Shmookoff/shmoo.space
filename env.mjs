@@ -20,6 +20,14 @@ export const env = createEnv({
         return `${process.env.NEXT_PUBLIC_HOST}:${process.env.NEXT_PUBLIC_PORT}`;
     }, z.string().url()),
   },
-  experimental__runtimeEnv: {},
+  runtimeEnv: {
+    MONGODB_URI: process.env.MONGODB_URI,
+    PAYLOAD_SECRET: process.env.PAYLOAD_SECRET,
+    PAYLOAD_CONFIG_PATH: process.env.PAYLOAD_CONFIG_PATH,
+    PAYLOAD_CSS_PATH: process.env.PAYLOAD_CSS_PATH,
+    PAYLOAD_PATH: process.env.PAYLOAD_PATH,
+    PAYLOAD_ADMIN_ROUTE: process.env.PAYLOAD_ADMIN_ROUTE,
+    NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
+  },
 });
 process.env = { ...process.env, ...env };
