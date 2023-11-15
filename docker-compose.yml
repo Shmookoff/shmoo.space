@@ -11,9 +11,11 @@ services:
     volumes:
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
       - mongodb_data:/data/db
+    ports:
+      - "27017:27017"
 
   app:
-    image: ghrc.io/shmookoff/shmoo.space:0.1.1
+    image: ghcr.io/shmookoff/shmoo.space:latest
     restart: on-failure
     environment:
       - MONGODB_URI

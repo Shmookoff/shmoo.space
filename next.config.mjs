@@ -15,7 +15,7 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: appUrl.protocol,
+        protocol: appUrl.protocol.slice(0, -1),
         hostname: appUrl.hostname,
         port: appUrl.port,
         pathname: "/api/uploads/*/*",
